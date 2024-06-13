@@ -17,7 +17,7 @@ enum class EUnitScale : uint8
 class ElectricUnitHelper
 {
 public:
-    static double GetScaleMultiplier(EUnitScale Scale)
+    static constexpr double GetScaleMultiplier(EUnitScale Scale)
     {
         switch (Scale)
         {
@@ -38,6 +38,7 @@ struct FVoltage
 
 private:
     double InternalValue = 0.0;
+    double ScaleMultiplier = 1.0;
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "9999.0"))
@@ -47,12 +48,9 @@ public:
     EUnitScale Scale = EUnitScale::Unit;
 
     double GetUnitValue() const;
-
     FVoltage operator+(const FVoltage& Other) const;
     FVoltage operator-(const FVoltage& Other) const;
-    FVoltage operator*(float Scalar) const;
-    FVoltage operator/(float Scalar) const;
-    void operator=(const double Value);
+    void operator=(const double InValue);
 
     FVoltage() = default;
     FVoltage(double InValue, EUnitScale InScale);
@@ -65,6 +63,7 @@ struct FAmpere
 
 private:
     double InternalValue = 0.0;
+    double ScaleMultiplier = 1.0;
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "9999.0"))
@@ -108,7 +107,7 @@ public:
     }
 
     FAmpere() = default;
-    FAmpere(float X, EUnitScale Scale);
+    FAmpere(double InValue, EUnitScale InScale);
 };
 
 USTRUCT(BlueprintType)

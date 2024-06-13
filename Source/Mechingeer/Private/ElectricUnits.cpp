@@ -26,6 +26,15 @@ void FVoltage::operator=(const double InValue)
 FVoltage::FVoltage(double InValue, EUnitScale InScale)
 {
 	InternalValue = InValue;
-	Value = InternalValue;
+	Value = InValue;
 	Scale = InScale;
+	ScaleMultiplier = ElectricUnitHelper::GetScaleMultiplier(InScale);
+}
+
+FAmpere::FAmpere(double InValue, EUnitScale InScale)
+{
+	InternalValue = InValue;
+	Value = InValue;
+	Scale = InScale;
+	ScaleMultiplier = ElectricUnitHelper::GetScaleMultiplier(Scale);
 }
