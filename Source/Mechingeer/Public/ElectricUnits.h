@@ -42,7 +42,7 @@ private:
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "9999.0"))
-    float Value = 0.0f;
+    float Voltages = 0.0f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     EUnitScale Scale = EUnitScale::Unit;
@@ -50,10 +50,10 @@ public:
     double GetUnitValue() const;
     FVoltage operator+(const FVoltage& Other) const;
     FVoltage operator-(const FVoltage& Other) const;
-    void operator=(const double InValue);
+    void operator=(const double& InValue);
 
     FVoltage() = default;
-    FVoltage(double InValue, EUnitScale InScale);
+    FVoltage(const double& InValue, const EUnitScale& InScale);
 };
 
 USTRUCT(BlueprintType)
@@ -72,16 +72,6 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     EUnitScale Scale = EUnitScale::Unit;
 
-    void UpdateInternalValue()
-    {
-        InternalValue = Value * ElectricUnitHelper::GetScaleMultiplier(Scale);
-    }
-
-    float GetValueInBaseUnit() const
-    {
-        return static_cast<float>(InternalValue / ElectricUnitHelper::GetScaleMultiplier(Scale));
-    }
-
     FAmpere operator+(const FAmpere& Other) const
     {
         double ResultValue = InternalValue + Other.InternalValue;
@@ -94,20 +84,8 @@ public:
         return FAmpere{ static_cast<float>(ResultValue / ElectricUnitHelper::GetScaleMultiplier(Scale)), Scale };
     }
 
-    FAmpere operator*(float Scalar) const
-    {
-        double ResultValue = InternalValue * Scalar;
-        return FAmpere{ static_cast<float>(ResultValue / ElectricUnitHelper::GetScaleMultiplier(Scale)), Scale };
-    }
-
-    FAmpere operator/(float Scalar) const
-    {
-        double ResultValue = InternalValue / Scalar;
-        return FAmpere{ static_cast<float>(ResultValue / ElectricUnitHelper::GetScaleMultiplier(Scale)), Scale };
-    }
-
     FAmpere() = default;
-    FAmpere(double InValue, EUnitScale InScale);
+    FAmpere(const double& InValue, const EUnitScale& InScale);
 };
 
 USTRUCT(BlueprintType)
@@ -117,48 +95,29 @@ struct FWatt
 
 private:
     double InternalValue = 0.0;
+    double ScaleMultiplier = 1.0;
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "9999.0"))
-    float Value = 0.0f;
+    float Watts = 0.0f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     EUnitScale Scale = EUnitScale::Unit;
 
-    void UpdateInternalValue()
-    {
-        InternalValue = Value * ElectricUnitHelper::GetScaleMultiplier(Scale);
-    }
-
-    float GetValueInBaseUnit() const
-    {
-        return static_cast<float>(InternalValue / ElectricUnitHelper::GetScaleMultiplier(Scale));
-    }
-
-    FWatt operator+(const FWatt& Other) const
-    {
-        double ResultValue = InternalValue + Other.InternalValue;
-        return FWatt{ static_cast<float>(ResultValue / ElectricUnitHelper::GetScaleMultiplier(Scale)), Scale };
-    }
-
-    FWatt operator-(const FWatt& Other) const
-    {
-        double ResultValue = InternalValue - Other.InternalValue;
-        return FWatt{ static_cast<float>(ResultValue / ElectricUnitHelper::GetScaleMultiplier(Scale)), Scale };
-    }
-
-    FWatt operator*(float Scalar) const
-    {
-        double ResultValue = InternalValue * Scalar;
-        return FWatt{ static_cast<float>(ResultValue / ElectricUnitHelper::GetScaleMultiplier(Scale)), Scale };
-    }
-
-    FWatt operator/(float Scalar) const
-    {
-        double ResultValue = InternalValue / Scalar;
-        return FWatt{ static_cast<float>(ResultValue / ElectricUnitHelper::GetScaleMultiplier(Scale)), Scale };
-    }
-
     FWatt() = default;
-    FWatt(float X, EUnitScale Scale);
+    FWatt(const double InWatts, const EUnitScale& InScale);
+};
+
+USTRUCT(BlueprintType)
+struct FWattHour
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "9999.0"))
+    float WattHours = 0.0f;
+
+    FWattHour() = default;
+    FWattHour(const float& InWattHours);
+
+    FWattHour operator+(const FWattHour& Other) const;
 };

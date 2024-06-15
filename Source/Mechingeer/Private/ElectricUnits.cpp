@@ -17,24 +17,42 @@ FVoltage FVoltage::operator-(const FVoltage& Other) const
 	return FVoltage{ResultValue, Scale};
 }
 
-void FVoltage::operator=(const double InValue)
+void FVoltage::operator=(const double& InValue)
 {
 	InternalValue = InValue;
-	Value = InternalValue;
+	Voltages = InternalValue;
 }
 
-FVoltage::FVoltage(double InValue, EUnitScale InScale)
+FVoltage::FVoltage(const double& InValue, const EUnitScale& InScale)
 {
 	InternalValue = InValue;
-	Value = InValue;
+	Voltages = InValue;
 	Scale = InScale;
 	ScaleMultiplier = ElectricUnitHelper::GetScaleMultiplier(InScale);
 }
 
-FAmpere::FAmpere(double InValue, EUnitScale InScale)
+FAmpere::FAmpere(const double& InValue, const EUnitScale& InScale)
 {
 	InternalValue = InValue;
 	Value = InValue;
 	Scale = InScale;
 	ScaleMultiplier = ElectricUnitHelper::GetScaleMultiplier(Scale);
+}
+
+FWatt::FWatt(const double InWatts, const EUnitScale& InScale)
+{
+	Watts = InWatts;
+	InternalValue = InWatts;
+	Scale = InScale;
+	ScaleMultiplier = ElectricUnitHelper::GetScaleMultiplier(Scale);
+}
+
+FWattHour::FWattHour(const float& InWattHours)
+{
+	WattHours = InWattHours;
+}
+
+FWattHour FWattHour::operator+(const FWattHour& Other) const
+{
+	return {WattHours + Other.WattHours};
 }
