@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ElectricUnits.h"
 #include "UObject/Interface.h"
 #include "Battery.generated.h"
 
@@ -17,8 +18,11 @@ class IBattery
 	GENERATED_BODY()
 
 public:
-	virtual FWattHour GetMaximumCapacity() const = 0;
-	virtual FWattHour GetCurrentCapacity() const = 0;
+	UFUNCTION(BlueprintImplementableEvent)
+	FWattHour GetMaximumCapacity() const;
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	FWattHour GetCurrentCapacity() const;
 
 	virtual void SetCurrentCapacity(const FWattHour& NewCapacity) = 0;
 	void ModifyCurrentCapacity(const FWattHour& ModifyWith);

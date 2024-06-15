@@ -50,6 +50,7 @@ public:
     double GetUnitValue() const;
     FVoltage operator+(const FVoltage& Other) const;
     FVoltage operator-(const FVoltage& Other) const;
+    FWatt operator*=(const FAmpere& Ampere) const;
     void operator=(const double& InValue);
 
     FVoltage() = default;
@@ -67,7 +68,9 @@ private:
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "9999.0"))
-    float Value = 0.0f;
+    float Amperes = 0.0f;
+    
+    double GetUnitValue() const;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     EUnitScale Scale = EUnitScale::Unit;
@@ -103,6 +106,8 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     EUnitScale Scale = EUnitScale::Unit;
+
+    FWatt operator*(const FVoltage& Voltage, const FAmpere& Amps);
 
     FWatt() = default;
     FWatt(const double InWatts, const EUnitScale& InScale);
