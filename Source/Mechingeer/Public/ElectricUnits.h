@@ -36,6 +36,8 @@ struct FVoltage
 {
     GENERATED_BODY()
 
+    friend struct FAmpere;
+
 private:
     double InternalValue = 0.0;
     double ScaleMultiplier = 1.0;
@@ -75,17 +77,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     EUnitScale Scale = EUnitScale::Unit;
 
-    FAmpere operator+(const FAmpere& Other) const
-    {
-        double ResultValue = InternalValue + Other.InternalValue;
-        return FAmpere{ static_cast<float>(ResultValue / ElectricUnitHelper::GetScaleMultiplier(Scale)), Scale };
-    }
-
-    FAmpere operator-(const FAmpere& Other) const
-    {
-        double ResultValue = InternalValue - Other.InternalValue;
-        return FAmpere{ static_cast<float>(ResultValue / ElectricUnitHelper::GetScaleMultiplier(Scale)), Scale };
-    }
+    FAmpere operator+(const FAmpere& Other) const;
+    struct FWatt operator*(const FVoltage& Other) const;
+    FAmpere operator-(const FAmpere& Other) const;
 
     FAmpere() = default;
     FAmpere(const double& InValue, const EUnitScale& InScale);
@@ -106,8 +100,6 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     EUnitScale Scale = EUnitScale::Unit;
-
-    FWatt operator*(const FVoltage& Voltage, const FAmpere& Amps);
 
     FWatt() = default;
     FWatt(const double InWatts, const EUnitScale& InScale);

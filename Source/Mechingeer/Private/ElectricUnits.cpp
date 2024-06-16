@@ -8,13 +8,25 @@ double FVoltage::GetUnitValue() const
 FVoltage FVoltage::operator+(const FVoltage& Other) const
 {
 	const double ResultValue = InternalValue + ((Other.InternalValue * ElectricUnitHelper::GetScaleMultiplier(Other.Scale)) / ElectricUnitHelper::GetScaleMultiplier(Scale));
-	return FVoltage{ResultValue, Scale};
+	return FVoltage{ResultValue, EUnitScale::Unit};
 }
 
 FVoltage FVoltage::operator-(const FVoltage& Other) const
 {
 	const double ResultValue = InternalValue - ((Other.InternalValue * ElectricUnitHelper::GetScaleMultiplier(Other.Scale)) / ElectricUnitHelper::GetScaleMultiplier(Scale));
-	return FVoltage{ResultValue, Scale};
+	return FVoltage{ResultValue, EUnitScale::Unit};
+}
+
+FWatt FAmpere::operator*(const FVoltage& Other) const
+{
+	const double ResultValue = InternalValue - ((Other.InternalValue * ElectricUnitHelper::GetScaleMultiplier(Other.Scale)) / ElectricUnitHelper::GetScaleMultiplier(Scale));
+	return FWatt{ResultValue, EUnitScale::Unit};
+}
+
+FAmpere FAmpere::operator-(const FAmpere& Other) const
+{
+	const double ResultValue = InternalValue - ((Other.InternalValue * ElectricUnitHelper::GetScaleMultiplier(Other.Scale)) / ElectricUnitHelper::GetScaleMultiplier(Scale));
+	return FAmpere{ResultValue, EUnitScale::Unit};
 }
 
 FWatt FVoltage::operator*=(const FAmpere& Ampere) const
@@ -47,12 +59,6 @@ FAmpere::FAmpere(const double& InValue, const EUnitScale& InScale)
 	Amperes = InValue;
 	Scale = InScale;
 	ScaleMultiplier = ElectricUnitHelper::GetScaleMultiplier(Scale);
-}
-
-FWatt FWatt::operator*(const FVoltage& Voltage, const FAmpere& Amps)
-{
-	FVoltage Voltage1(Voltage);
-	return Voltage1 *= Amps;
 }
 
 FWatt::FWatt(const double InWatts, const EUnitScale& InScale)

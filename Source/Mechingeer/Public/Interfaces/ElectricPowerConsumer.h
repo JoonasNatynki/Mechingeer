@@ -19,13 +19,28 @@ class IElectricPowerConsumer
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintImplementableEvent)
-	FVoltage GetCurrentOperationalVoltage();
-	
-	UFUNCTION(BlueprintImplementableEvent)
-	FAmpere GetCurrentOperationalAmperage();
+	// The actual voltage actively being used by this thing
+	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintImplementableEvent, BlueprintCallable)
+	FVoltage GetCurrentOperationalVoltage() const;
 
-	UFUNCTION(BlueprintImplementableEvent)
-	FWatt GetCurrentPowerConsumption();
-	FWatt GetCurrentPowerConsumption_Implementation();
+	// The actual amperage being consumed by this thing
+	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintImplementableEvent, BlueprintCallable)
+	FAmpere GetCurrentOperationalAmperage() const;
+
+	// The voltage needed for proper function
+	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintImplementableEvent, BlueprintCallable)
+	FVoltage GetNominalVoltage() const;
+
+	// The voltage needed for proper function
+	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintImplementableEvent, BlueprintCallable)
+	FAmpere GetNominalAmperage() const;
+
+	// The difference between nominal voltage and supplied voltage. Positive values mean overvoltage
+	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintNativeEvent, BlueprintCallable)
+	FVoltage GetVoltageNominalityDelta() const;
+	virtual FVoltage GetVoltageNominalityDelta_Implementation() const;
+
+	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintNativeEvent, BlueprintCallable)
+	FWatt GetCurrentPowerConsumption() const;
+	virtual FWatt GetCurrentPowerConsumption_Implementation() const;
 };

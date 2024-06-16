@@ -16,9 +16,10 @@ class IPowered
 
 public:
 
-	UFUNCTION(Category = "Powered", BlueprintImplementableEvent)
-	bool IsPowered();
+	//	Means that the thing is actively consuming power...even at near zero idle states
+	UFUNCTION(Category = "Powered", BlueprintImplementableEvent, BlueprintCallable)
+	bool IsPoweredOn() const;
 	
-	UFUNCTION(Category = "Powered", BlueprintImplementableEvent)
-	void SetIsPowered(const bool bNewPoweredState);
+	UFUNCTION(Category = "Powered", BlueprintImplementableEvent, BlueprintCallable)
+	void SetIsPoweredOn(const bool bNewPoweredState);
 };
