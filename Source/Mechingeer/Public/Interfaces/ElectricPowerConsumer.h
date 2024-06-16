@@ -22,7 +22,7 @@ public:
 	*	@param	DeltaTime	In what kind of time spawn the amount of wattage is consumed
 	*	@return				How much energy was consumed in WattHours
 	*/
-	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintNativeEvent, BlueprintCallable, BlueprintNonPure)
 	FWattHour ConsumerElectricPower(const float DeltaTime) const;
 	FWattHour ConsumeElectricPower_Implementation(const float DeltaTime) const;
 	
