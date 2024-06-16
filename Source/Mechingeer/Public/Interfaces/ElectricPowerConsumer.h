@@ -22,17 +22,17 @@ public:
 	*	@param	DeltaTime	In what kind of time spawn the amount of wattage is consumed
 	*	@return				How much energy was consumed in WattHours
 	*/
-	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintNativeEvent, BlueprintCallable, BlueprintNonPure)
-	FWattHour ConsumerElectricPower(const float DeltaTime) const;
-	FWattHour ConsumeElectricPower_Implementation(const float DeltaTime) const;
+	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintNativeEvent, BlueprintCallable)
+	FWattHour ConsumerElectricPower(const float DeltaTime);
+	FWattHour ConsumeElectricPower_Implementation(const float DeltaTime);
 	
 	// The actual voltage actively being used by this thing
 	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintImplementableEvent, BlueprintCallable)
-	FVoltage GetCurrentOperationalVoltage() const;
+	FVoltage GetCurrentOperatingVoltage() const;
 
 	// The actual amperage being consumed by this thing
 	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintImplementableEvent, BlueprintCallable)
-	FAmpere GetCurrentOperationalAmperage() const;
+	FAmpere GetCurrentOperatingAmperage() const;
 
 	// The voltage needed for proper function
 	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintImplementableEvent, BlueprintCallable)
