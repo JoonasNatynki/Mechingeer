@@ -40,7 +40,7 @@ struct FVoltage
 
 private:
     double InternalValue = 0.0;
-    double ScaleMultiplier = 1.0;
+    double CachedScaleMultiplier = 1.0;
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "9999.0"))
@@ -52,6 +52,7 @@ public:
     double GetUnitValue() const;
     FVoltage operator+(const FVoltage& Other) const;
     FVoltage operator-(const FVoltage& Other) const;
+    FWatt operator*(const FAmpere& Ampere) const;
     FWatt operator*=(const FAmpere& Ampere) const;
     void operator=(const double& InValue);
 
@@ -64,9 +65,11 @@ struct FAmpere
 {
     GENERATED_BODY()
 
+    friend struct FVoltage;
+
 private:
     double InternalValue = 0.0;
-    double ScaleMultiplier = 1.0;
+    double CachedScaleMultiplier = 1.0;
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "9999.0"))
@@ -92,17 +95,23 @@ struct FWatt
 
 private:
     double InternalValue = 0.0;
-    double ScaleMultiplier = 1.0;
+    double CachedScaleMultiplier = 1.0;
 
 public:
+
+    double GetUnitValue() const;
+    
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "9999.0"))
     float Watts = 0.0f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     EUnitScale Scale = EUnitScale::Unit;
 
+    FWattHour operator*(const FWatt& Other) const;
+    FWatt operator*(const double& Value) const;
+
     FWatt() = default;
-    FWatt(const double InWatts, const EUnitScale& InScale);
+    FWatt(const double& InWatts, const EUnitScale& InScale);
 };
 
 USTRUCT(BlueprintType)
@@ -110,11 +119,19 @@ struct FWattHour
 {
     GENERATED_BODY()
 
+private:
+    double InternalValue = 0.0;
+    double CachedScaleMultiplier = 1.0;
+
+public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = "0.0", ClampMax = "9999.0"))
     float WattHours = 0.0f;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    EUnitScale Scale = EUnitScale::Unit;
+
     FWattHour() = default;
-    FWattHour(const float& InWattHours);
+    FWattHour(const double& InWattHours, const EUnitScale& InScale);
 
     FWattHour operator+(const FWattHour& Other) const;
 };

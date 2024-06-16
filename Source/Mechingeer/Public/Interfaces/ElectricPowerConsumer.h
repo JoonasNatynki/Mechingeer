@@ -2,11 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "ElectricUnits.h"
 #include "ElectricPowerConsumer.generated.h"
-
-struct FWatt;
-struct FAmpere;
-struct FVoltage;
 
 UINTERFACE(MinimalAPI)
 class UElectricPowerConsumer : public UInterface
@@ -19,6 +16,16 @@ class IElectricPowerConsumer
 	GENERATED_BODY()
 
 public:
+
+	/**
+	*	Consume the amount of electric power based on the current operational voltages and amperages
+	*	@param	DeltaTime	In what kind of time spawn the amount of wattage is consumed
+	*	@return				How much energy was consumed in WattHours
+	*/
+	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintNativeEvent, BlueprintCallable)
+	FWattHour ConsumerElectricPower(const float DeltaTime) const;
+	FWattHour ConsumeElectricPower_Implementation(const float DeltaTime) const;
+	
 	// The actual voltage actively being used by this thing
 	UFUNCTION(Category = "ElectricPowerConsumer", BlueprintImplementableEvent, BlueprintCallable)
 	FVoltage GetCurrentOperationalVoltage() const;

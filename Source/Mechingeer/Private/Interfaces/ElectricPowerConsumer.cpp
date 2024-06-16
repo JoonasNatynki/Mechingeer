@@ -1,5 +1,12 @@
 #include "Interfaces/ElectricPowerConsumer.h"
-#include "ElectricUnits.h"
+
+FWattHour IElectricPowerConsumer::ConsumeElectricPower_Implementation(
+	const float DeltaTime) const
+{
+	const FWatt Watts(GetCurrentOperationalVoltage() * GetCurrentOperationalAmperage());
+	const FWattHour WattHours(Watts.GetUnitValue() * DeltaTime, EUnitScale::Unit);
+	return WattHours;
+}
 
 FVoltage IElectricPowerConsumer::GetVoltageNominalityDelta_Implementation() const
 {
