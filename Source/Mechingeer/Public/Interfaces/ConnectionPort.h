@@ -7,7 +7,7 @@
 
 class IPortConnection;
 
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, BlueprintType)
 class UConnectionPort : public UInterface
 {
 	GENERATED_BODY()

@@ -4,7 +4,7 @@
 #include "UObject/Interface.h"
 #include "PowerConnector.generated.h"
 
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, BlueprintType)
 class UPowerConnector : public UInterface
 {
 	GENERATED_BODY()
