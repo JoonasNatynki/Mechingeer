@@ -7,6 +7,13 @@
 
 class IPortConnection;
 
+UENUM(Blueprintable)
+enum EConnectionPortType : uint8
+{
+	Undefined,
+	Power
+};
+
 UINTERFACE(MinimalAPI, BlueprintType)
 class UConnectionPort : public UInterface
 {
@@ -24,6 +31,13 @@ public:
 	
 	UFUNCTION(Category = "ConnectionPort", BlueprintImplementableEvent, BlueprintCallable)
 	bool DetachPortConnection();
+
+	UFUNCTION(Category = "ConnectionPort", NotBlueprintable)
+	virtual bool IsPortUsed() const;
+	virtual bool IsPortUsed_Implementation() const;
+
+	UFUNCTION(Category = "ConnectionPort", BlueprintImplementableEvent, BlueprintCallable)
+	EConnectionPortType GetPortType() const;
 
 	UFUNCTION(Category = "ConnectionPort", BlueprintImplementableEvent, BlueprintCallable)
 	TScriptInterface<IPortConnection> GetPortConnection() const;
